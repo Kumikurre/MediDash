@@ -18,7 +18,7 @@ query = ("SELECT timestamp FROM medication WHERE device_id = {}".format(device_i
 cursor.execute(query)
 cnx.close()
 
-lista2 = [item[0] for item in cursor]
+lista2 = [item[0] for item in lista]
 
 df = pd.DataFrame(lista).rename(columns={0: "timestamp", 1: "score"})
 df = df.join(pd.DataFrame(lista2, columns=["timestamp_medication"]))
