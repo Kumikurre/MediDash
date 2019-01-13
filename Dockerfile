@@ -11,10 +11,10 @@ RUN apt-get update -y && \
 ADD . /app
 
 # install requirements
-RUN pip3 install -r /app/requirements.txt
+RUN pip3 --no-cache-dir install -r /app/requirements.txt
 
 # make port 8000 available to the world outside
 EXPOSE 8000
 
 WORKDIR /app
-CMD ["gunicorn", "wsgi:app.server"]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "wsgi:app.server"]
