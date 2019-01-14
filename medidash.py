@@ -13,7 +13,7 @@ import plotly.graph_objs as go
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 
 server = flask.Flask(__name__)
-app = dash.Dash(__name__, server=server)
+app = dash.Dash(__name__, server=server, url_base_pathname='/medidash')
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
 
