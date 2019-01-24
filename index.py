@@ -29,7 +29,7 @@ def display_page(pathname):
     elif pathname == '/medidash/advanced':
          return advanced.layout
     else:
-        return '404'
+        return regular.layout
 
 if __name__ == '__main__':
     app.run_server(debug=True)
