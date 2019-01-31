@@ -11,7 +11,7 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 import dash_table
 
-import views.medidash_be as be
+import medidash_be as be
 from medidash import app
 
 layout = html.Div(children=[

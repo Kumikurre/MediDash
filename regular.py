@@ -12,7 +12,7 @@ import plotly.graph_objs as go
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 import plotly.figure_factory as ff
 
-import views.medidash_be as be
+import medidash_be as be
 from medidash import app
 
 

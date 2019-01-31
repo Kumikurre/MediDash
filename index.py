@@ -3,7 +3,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 from medidash import app
-from views import regular, advanced
+import regular, advanced
 
 
 app.layout = html.Div([
