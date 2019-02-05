@@ -1,7 +1,7 @@
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-from flask import render_template, request, send_file
+from flask import render_template, request, send_file, redirect
 
 from medidash import app
 import regular, advanced
@@ -32,9 +32,10 @@ def login():
     if request.method != 'POST':
         return render_template('login.html')
     else:
-        print(request.method, request.values['device_id'])
-        if request.form['device_id'] == device_id:
-            return redirect(request.args.get("next"))
+        print(request.args)
+        print(request.data.decode('UTF-8'))
+        if request.data.decode('UTF-8') == "{device_id=2bb0b3f1-23db-4e57-a8bb-a5cdc03d784d}":
+            return redirect("http://127.0.0.1:8000/medidash/regular", code=302)
         else:
             flash('Invalid email address.', 'danger')
             return render_template('login.html')
