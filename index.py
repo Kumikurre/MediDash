@@ -26,25 +26,20 @@ def static_file(path):
 def index():
     return render_template('login.html')
 
-@app.server.route('/login', methods=['GET', 'POST'])
+@app.server.route("/login", methods=["GET", "POST"])
 def login():
     """Login form."""
-    print(request.method, request.values['device_id'])
-    if request.method == 'POST':
-        u = request.form['device_id']
-        if u != device_id:
+    if request.method != 'POST':
+        return render_template('login.html')
+    else:
+        print(request.method, request.values['device_id'])
+        if request.form['device_id'] == device_id:
+            return redirect(request.args.get("next"))
+        else:
             flash('Invalid email address.', 'danger')
             return render_template('login.html')
-        else:
-            otp = request.form['otp']
-            if u.authenticate(otp):
-                flash('Authentication successful!', 'success')
-                return render_template('/view.html', user=u)
-            else:
-                flash('Invalid one-time password!', 'danger')
-                return render_template('login.html')
-    else:
-        return render_template('login.html')
+
+        
 
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
@@ -55,6 +50,19 @@ def display_page(pathname):
          return advanced.layout
     else:
         return regular.layout
+
+# @app.callback(Output('page-content', 'children'),
+#               [Input('url', 'pathname')])
+# def display_page(pathname):
+#     if request.args['device_id'] == device_id:
+#         if pathname == '/medidash/regular':
+#             return regular.layout
+#         elif pathname == '/medidash/advanced':
+#             return advanced.layout
+#         else:
+#             return regular.layout
+#     else:
+#         return render_template('login.html')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
