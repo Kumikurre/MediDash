@@ -5,7 +5,7 @@ MAINTAINER Atte Jauhiainen "atte.jauhiainen@student.oulu.fi"
 RUN apt-get update -y && \
     apt-get install -y python3-pip python3-dev pkg-config \
     libmysqlclient-dev python3-mysqldb
-
+RUN python3 -m pip install --upgrade pip
 
 # copy current directory into the container
 ADD . /app
