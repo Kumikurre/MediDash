@@ -1,3 +1,36 @@
+body{
+	margin-top: 0px;
+	padding-top: 0px;
+	margin-bottom: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #bdbdbd;
+	font-family: 'Overpass', sans-serif;
+}
+
+#react-entry-point{
+	background-color: #ffffff;
+}
+
+#react-entry-point{
+	border-style: solid;
+	border-width:1px;
+	border-color: #141414;
+}
+
+#page-content{
+	padding:10px;
+}
+
+h1{
+	background-color: #29668f;
+	padding-left: 10px;
+	margin-top:0px;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
 .nav-button {
 	-moz-box-shadow: 0px 11px 16px -6px #276873;
 	-webkit-box-shadow: 0px 11px 16px -6px #276873;

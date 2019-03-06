@@ -15,8 +15,8 @@ import medidash_be as be
 from medidash import app
 
 layout = html.Div(children=[
-	html.H1(children='MediDash'),
     html.A(html.Button('Regular', className="nav-button"), href="/medidash/regular"),
+	html.H3('Advanced view'),
 	html.Div([
 		html.H4("Rolling value"),
 		dcc.Slider(
@@ -49,7 +49,6 @@ layout = html.Div(children=[
 			display_format="DD.MM.YYYY"
 		)], style=dict(
 				width=400)),
-	html.H3('Advanced view'),
 	html.Div(id='tabs-content-advanced'),
 	html.Div(id="table"),
 		

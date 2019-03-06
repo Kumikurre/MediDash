@@ -78,7 +78,6 @@ def render_heatmap():
 
 
 layout = html.Div(children=[
-	html.H1(children='MediDash'),
     html.A(html.Button('Advanced', className="nav-button"), href="/medidash/advanced"),
 	html.Div(id='tabs-content-regular'),
     render_content(),
