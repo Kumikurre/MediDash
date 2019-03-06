@@ -20,6 +20,8 @@ app.layout = html.Div([
     
 ])
 
+app.css.config.serve_locally = True
+
 @app.server.route('/static/<path:path>')
 def static_file(path):
     static_folder = os.path.join(os.getcwd(), 'static')
