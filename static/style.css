@@ -7,6 +7,7 @@ body{
 	justify-content: center;
 	background-color: #bdbdbd;
 	font-family: 'Overpass', sans-serif;
+	font-size: 250%;
 }
 
 #react-entry-point{
@@ -23,12 +24,18 @@ body{
 	padding:10px;
 }
 
+._dash-undo-redo{
+	display: none;
+}
+
 h1{
 	background-color: #29668f;
 	padding-left: 10px;
 	margin-top:0px;
 	padding-top:10px;
 	padding-bottom:10px;
+	color: #ffffff;
+	-webkit-text-stroke: 1px #000000;
 }
 
 .nav-button {
