@@ -58,19 +58,24 @@ def determine_color(score=be.df["score"].mean()):
     else:
         return "yellow"
 
-
-
 layout = html.Div(children=[
     html.A(html.Button('Advanced', className="nav-button"), href="/medidash/advanced"),
     html.H3('Regular view'),
 
+    html.Div(id='smile-wrapper', children=[
+        html.Div(className='smiley-'+determine_color(calculate_score(7)), children=[
+            html.Div(className='left-eye'),
+            html.Div(className='right-eye'),
+            html.Div(className='smile')
+        ])
+    ]),
     html.P("You average score from all time: {}".format(int(round(be.df["score"].mean(), 0)))),
     html.P("Your average score from the last 30 days: {}".format(calculate_score()),
-        style=dict(color=determine_color(calculate_score()))),
+        className='score-text-'+determine_color(calculate_score())+' score-text'),
     html.P("Your average score from the last 7 days: {}".format(calculate_score(7)),
-        style=dict(color=determine_color(calculate_score(7)))),
+        className='score-text-'+determine_color(calculate_score(7))+' score-text'),
     html.P("Your average score from the last day: {}".format(calculate_score(1)),
-        style=dict(color=determine_color(calculate_score(1)))),
+        className='score-text-'+determine_color(calculate_score(1))+' score-text'),
     html.H3("Share with your doctor"),
 	html.Div(id='tabs-content-regular'),
     render_content(),
