@@ -10,7 +10,7 @@ import dash_html_components as html
 import plotly.plotly as py
 import plotly.graph_objs as go
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
-import plotly.figure_factory as ff
+
 
 import medidash_be as be
 from medidash import app
@@ -22,7 +22,6 @@ from medidash import app
 # 	Output('tabs-content-regular', 'children'))
 def render_content():
     return html.Div([
-        html.H3('Regular view'),
         dcc.Graph(
             id='plot1',
             figure={
@@ -36,53 +35,46 @@ def render_content():
         )
     ])
 
-def render_heatmap():
-    #current_time = pd.Timestamp.now()
-    current_time = pd.Timestamp(year=2018, month=12, day=4)
-    start_date = pd.Timestamp(year=current_time.year, month=current_time.month, day=1)
-    heatmap = np.full(6*7, 0)
-    #heatmap[:start_date.dayofweek] = np.nan
-    filtered_time = be.df[be.df["timestamp"] >= start_date].set_index("timestamp")
-    filtered_score = filtered_time.resample("D").count()["score"].tolist()
-    heatmap[start_date.dayofweek: start_date.dayofweek + len(filtered_score)] = filtered_score
-    heatmap = heatmap.reshape(6, 7)[::-1]
-    colorscale=[[0.0, 'rgb(255,255,255)'], ]
-    days_in_month = pd.Series(start_date).dt.daysinmonth
-    days = np.append(np.zeros(start_date.dayofweek), np.arange(1, days_in_month.tolist()[0] + 1))
-    days = np.append(days, np.zeros(6*7 - start_date.dayofweek - days_in_month)).reshape(6, 7)[::-1]
-    days = np.array([[int(day) for day in week]for week in days])
-    
-    display_text = list(zip(days.flatten(), heatmap.flatten()))
-    display_text = ["{},\n{} meds".format(day[0], day[1]) for day in display_text]
-    display_text = np.array(display_text).reshape(6, 7)
 
-    return html.Div([
-            dcc.Graph(
-                figure=go.Figure(
-                    data=ff.create_annotated_heatmap(
-                        z=heatmap,
-                        x=['Monday', 'Tuesday', 'Wednesday', 'Thursday',
-                        'Friday', "Saturday", "Sunday"],
-                        annotation_text=display_text,
-                        colorscale=colorscale,
-                    ),
-                    layout=go.Layout(
-                        title="Calendar",
-                        )
 
-                )
-            )
-        ],
-        style=dict(
-            width="800px"))
+def calculate_score(days=30):
+    """Calculates the score from the last x days,
+    the paremeter days = x"""
+    start_date = pd.Timestamp(year=2018, month=12, day=9)
+    #Replace start_date with dt.now() for actual data
+    filter_last_days = be.df["timestamp"][be.df["timestamp"] >= start_date - pd.Timedelta(days, unit="d")]
+    last_days_score = be.df["score"][filter_last_days.index]
+    return int(round(last_days_score.mean(), 0))
+
+def determine_color(score=be.df["score"].mean()):
+    """Determines the color by comparing the given score to the overall avg score.
+    If the score is lower than 5% of the avg score we return red, 5% higher green
+    else yellow"""
+    avg_score = int(round(be.df["score"].mean(), 0))
+    if score < avg_score * 0.95:
+        return "red"
+    elif score > avg_score * 1.05:
+        return "green"
+    else:
+        return "yellow"
+
 
 
 layout = html.Div(children=[
     html.A(html.Button('Advanced', className="nav-button"), href="/medidash/advanced"),
+    html.H3('Regular view'),
+
+    html.P("You average score from all time: {}".format(int(round(be.df["score"].mean(), 0)))),
+    html.P("Your average score from the last 30 days: {}".format(calculate_score()),
+        style=dict(color=determine_color(calculate_score()))),
+    html.P("Your average score from the last 7 days: {}".format(calculate_score(7)),
+        style=dict(color=determine_color(calculate_score(7)))),
+    html.P("Your average score from the last day: {}".format(calculate_score(1)),
+        style=dict(color=determine_color(calculate_score(1)))),
+    html.H3("Share with your doctor"),
 	html.Div(id='tabs-content-regular'),
     render_content(),
     html.Br(),
-    render_heatmap()
 		
 ])
 
