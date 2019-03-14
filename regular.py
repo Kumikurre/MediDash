@@ -59,26 +59,46 @@ def determine_color(score=be.df["score"].mean()):
         return "yellow"
 
 layout = html.Div(children=[
-    html.A(html.Button('Advanced', className="nav-button"), href="/medidash/advanced"),
-    html.H3('Regular view'),
-
-    html.Div(id='smile-wrapper', children=[
-        html.Div(className='smiley-'+determine_color(calculate_score(7)), children=[
-            html.Div(className='left-eye'),
-            html.Div(className='right-eye'),
-            html.Div(className='smile')
-        ])
+    html.A(html.Button('Advanced view', className="nav-button"), href="/medidash/advanced", className="button-wrapper"),
+    html.Div(id="score-cards", children=[
+        html.Div(className="score-card " + 'score-card-'+determine_color(calculate_score(0)), children=[
+            html.P('Last 30 days', className='card-header'),
+            html.Div(className='smiley-'+determine_color(calculate_score(0)), children=[
+                html.Div(className='left-eye'),
+                html.Div(className='right-eye'),
+                html.Div(className='smile')
+            ]),
+            html.P(format(calculate_score()),
+            className='score-text-'+determine_color(calculate_score())+' score-text'),
+        ]),
+        html.Div(className="score-card " + 'score-card-'+determine_color(calculate_score(7)), children=[
+            html.P('Last 7 days', className='card-header'),
+            html.Div(className='smiley-'+determine_color(calculate_score(7)), children=[
+                html.Div(className='left-eye'),
+                html.Div(className='right-eye'),
+                html.Div(className='smile')
+            ]),
+            html.P(format(calculate_score(7)),
+            className='score-text-'+determine_color(calculate_score(7))+' score-text'),
+        ]),
+        html.Div(className="score-card " + 'score-card-'+determine_color(calculate_score(1)), children=[
+            html.P('Last day', className='card-header'),
+            html.Div(className='smiley-'+determine_color(calculate_score(1)), children=[
+                html.Div(className='left-eye'),
+                html.Div(className='right-eye'),
+                html.Div(className='smile')
+            ]),
+            html.P(format(calculate_score(1)),
+            className='score-text-'+determine_color(calculate_score(1))+' score-text'),
+        ]),
     ]),
-    html.P("You average score from all time: {}".format(int(round(be.df["score"].mean(), 0)))),
-    html.P("Your average score from the last 30 days: {}".format(calculate_score()),
-        className='score-text-'+determine_color(calculate_score())+' score-text'),
-    html.P("Your average score from the last 7 days: {}".format(calculate_score(7)),
-        className='score-text-'+determine_color(calculate_score(7))+' score-text'),
-    html.P("Your average score from the last day: {}".format(calculate_score(1)),
-        className='score-text-'+determine_color(calculate_score(1))+' score-text'),
-    html.H3("Share with your doctor"),
-	html.Div(id='tabs-content-regular'),
-    render_content(),
+
+    html.P("All time average score: {}".format(int(round(be.df["score"].mean(), 0))), id='total-average'),
+    html.A(html.Button("Share with your doctor", className="nav-button"), className="button-wrapper"),
+
+
+	# html.Div(id='tabs-content-regular'),
+    # render_content(),
     html.Br(),
 		
 ])

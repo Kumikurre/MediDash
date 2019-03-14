@@ -55,8 +55,8 @@ def render_heatmap():
         style=dict(
             width="800px"))
 
-layout = html.Div(children=[
-    html.A(html.Button('Regular', className="nav-button"), href="/medidash/regular"),
+layout = html.Div(id="advanced-view",children=[
+    html.A(html.Button('Regular view', className="nav-button"), href="/medidash/regular"),
 	html.H3('Advanced view'),
 	html.Div([
 		html.H4("Rolling value"),
